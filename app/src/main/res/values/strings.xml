@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">MathGame</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_logo_description">Welcome logo</string>
+    <string name="text_logo">Сосчитайка</string>
+    <string name="text_rules">Правила игры: перед вами будет три фигуры, две снизу и одна сверху, в двух из них будут
+    числа. Необходимо, чтобы сумма чисел из двух нижних фигур была равна числу в верхней фигуре,
+    для этого нужно вставить недостающее число.\n\nПример: в верхнем круге число 7, в одном
+    из нижних знак вопроса, а в другом число 4. Значит на месте вопросительного знака должно
+    быть число 3, потому что 3 + 4 = 7 </string>
+    <string name="btn_accept_text">Понятно</string>
+    <string name="text_choose_level">Выберите уровень сложности:</string>
+    <string name="btn_text_easy_lvl">Легкий</string>
+    <string name="btn_text_test_lvl">Тестовый</string>
+    <string name="btn_text_normal_lvl">Нормальный</string>
+    <string name="btn_text_hard_lvl">Сложный</string>
+    <string name="question_mark">"?"</string>
+    <string name="tv_progress_answers">Количество правильных ответов %s (минимум %s)</string>
+    <string name="game_over">Game over</string>
+    <string name="text_count_correct_answers">Необходимое количество правильных ответов: %s</string>
+    <string name="text_your_score">Ваш результат: %s</string>
+    <string name="text_min_percent_correct_answers">Минимальный процент верных ответов: %s</string>
+    <string name="text_your_percent_score">Процент верных ответов: %s</string>
+    <string name="btn_text_retry">Попробовать снова</string>
 </resources>

@@ -68,6 +68,7 @@
         app:layout_constraintEnd_toStartOf="@id/tv_option_5"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
+        android:text=""
         tools:text="1" />
 
     <TextView
@@ -79,6 +80,7 @@
         app:layout_constraintBottom_toTopOf="@id/tv_option_4"
         app:layout_constraintEnd_toStartOf="@id/tv_option_6"
         app:layout_constraintStart_toEndOf="@id/tv_option_4"
+        android:text=""
         tools:text="2" />
 
     <TextView
@@ -90,6 +92,7 @@
         app:layout_constraintBottom_toTopOf="@id/tv_option_4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_option_5"
+        android:text=""
         tools:text="3" />
 
     <TextView
@@ -102,6 +105,7 @@
         app:layout_constraintEnd_toStartOf="@id/tv_option_5"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
+        android:text=""
         tools:text="4" />
 
     <TextView
@@ -113,6 +117,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tv_option_6"
         app:layout_constraintStart_toEndOf="@id/tv_option_4"
+        android:text=""
         tools:text="5" />
 
     <TextView
@@ -124,6 +129,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_option_5"
+        android:text=""
         tools:text="6" />
 
     <TextView

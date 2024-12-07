@@ -17,10 +17,10 @@ object GameRepositoryImpl: GameRepository {
         val options = HashSet<Int>()
         val questionValue = Random.nextInt(MIN_QUESTION_VALUE, maxSumValue + 1)
         val visibleValue = Random.nextInt(MIN_ANSWER_VALUE, questionValue)
-        val correctAnswer = maxSumValue - visibleValue
+        val correctAnswer = questionValue - visibleValue
         options.add(correctAnswer)
-        val from = max(MIN_ANSWER_VALUE, correctAnswer - 5)
-        val to = min(correctAnswer + 5, maxSumValue)
+        val from = max(MIN_ANSWER_VALUE, correctAnswer - 9)
+        val to = min(correctAnswer + 9, maxSumValue)
         while (options.size < countOfOptions){
             val newValue = Random.nextInt(from, to)
             options.add(newValue)

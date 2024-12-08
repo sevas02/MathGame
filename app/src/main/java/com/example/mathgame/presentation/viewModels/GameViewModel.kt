@@ -83,6 +83,7 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
         this.level = level
         this.gameSettings = getGameSettingsUseCase(level)
         startTimer()
+        updateProgress()
         generateLevel()
         _secondaryProgress.value = gameSettings.minPercentOfRightAnswers
     }
@@ -159,7 +160,8 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     }
 
     private fun calculatePercentOfProgress(): Int {
-        return ((cntCorrectAnswers.toDouble() / gameSettings.minSumOfRightAnswers) * 100).toInt()
+        if (countFinishedLevels == 0) return 0
+        return ((cntCorrectAnswers.toDouble() / countFinishedLevels) * 100).toInt()
     }
 
     override fun onCleared() {

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.example.mathgame.R
 import com.example.mathgame.databinding.FragmentGameFinishedBinding
 import com.example.mathgame.domain.entity.GameResult
 
@@ -36,8 +37,37 @@ class GameFinishedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val percent = ((gameResult.countRightAnswers /
+                gameResult.countOfQuestions.toDouble()) * 100).toInt()
+
+        with(binding) {
+            if (gameResult.isVictory)
+                imgResult.setImageResource(R.drawable.winner_icon)
+            else
+                imgResult.setImageResource(R.drawable.looser_icon)
+
+            tvScoreAnswers.text = context?.resources?.getString(
+                R.string.text_your_score,
+                gameResult.countRightAnswers.toString()
+            )
+            tvScorePercentage.text = context?.resources?.getString(
+                R.string.text_your_percent_score,
+                percent.toString()
+            )
+            tvRequiredPercentage.text = context?.resources?.getString(
+                R.string.text_min_percent_correct_answers,
+                gameResult.gameSettings.minPercentOfRightAnswers.toString()
+            )
+            tvCountCorrectAnswers.text = context?.resources?.getString(
+                R.string.text_count_correct_answers,
+                gameResult.gameSettings.minSumOfRightAnswers.toString()
+            )
+        }
+
+
         requireActivity().onBackPressedDispatcher
-            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
+            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     retryGame()
                 }
@@ -47,7 +77,7 @@ class GameFinishedFragment : Fragment() {
         }
     }
 
-    private fun retryGame(){
+    private fun retryGame() {
         requireActivity().supportFragmentManager.popBackStack(
             GameFragment.NAME,
             FragmentManager.POP_BACK_STACK_INCLUSIVE

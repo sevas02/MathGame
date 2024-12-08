@@ -7,7 +7,7 @@
     tools:context=".presentation.fragments.GameFinishedFragment">
     
     <ImageView
-        android:id="@+id/_img_result"
+        android:id="@+id/img_result"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="48dp"

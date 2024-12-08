@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.graphics.green
 import androidx.lifecycle.ViewModelProvider
 import com.example.mathgame.R
@@ -21,6 +22,17 @@ class GameFragment : Fragment() {
 
     private lateinit var level: Level
     private lateinit var viewModel: GameViewModel
+
+    private val tvOptions by lazy {
+        mutableListOf<TextView>().apply {
+            add(binding.tvOption1)
+            add(binding.tvOption2)
+            add(binding.tvOption3)
+            add(binding.tvOption4)
+            add(binding.tvOption5)
+            add(binding.tvOption6)
+        }
+    }
 
     private var _binding: FragmentGameBinding? = null
     private val binding
@@ -43,35 +55,19 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this,
+        viewModel = ViewModelProvider(
+            this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
         )[GameViewModel::class.java]
         setObservers(viewModel)
         viewModel.startGame(level)
+        setOnClickOptionsListeners()
+    }
 
-        with (binding) {
-            tvOption1.setOnClickListener {
-                val answer =  tvOption1.text.toString().toInt()
-                viewModel.takeAnswer(answer)
-            }
-            tvOption2.setOnClickListener {
-                val answer = tvOption2.text.toString().toInt()
-                viewModel.takeAnswer(answer)
-            }
-            tvOption3.setOnClickListener {
-                val answer = tvOption3.text.toString().toInt()
-                viewModel.takeAnswer(answer)
-            }
-            tvOption4.setOnClickListener {
-                val answer = tvOption4.text.toString().toInt()
-                viewModel.takeAnswer(answer)
-            }
-            tvOption5.setOnClickListener {
-                val answer= tvOption5.text.toString().toInt()
-                viewModel.takeAnswer(answer)
-            }
-            tvOption6.setOnClickListener {
-                val answer= tvOption6.text.toString().toInt()
+    private fun setOnClickOptionsListeners() {
+        for (option in tvOptions) {
+            option.setOnClickListener {
+                val answer = option.text.toString().toInt()
                 viewModel.takeAnswer(answer)
             }
         }
@@ -83,20 +79,17 @@ class GameFragment : Fragment() {
         }
 
         viewModel.questionValue.observe(viewLifecycleOwner) {
+            for ((idx, option) in tvOptions.withIndex()) {
+                option.text = it.options[idx].toString()
+            }
             with(binding) {
-                tvOption1.text = it.options[0].toString()
-                tvOption2.text = it.options[1].toString()
-                tvOption3.text = it.options[2].toString()
-                tvOption4.text = it.options[3].toString()
-                tvOption5.text = it.options[4].toString()
-                tvOption6.text = it.options[5].toString()
                 tvLeftNumber.text = it.visibleNumber.toString()
                 tvSumma.text = it.sum.toString()
             }
         }
 
-        viewModel.isGameOver.observe(viewLifecycleOwner) {
-            launchGameResultFragment()
+        viewModel.gameResultLD.observe(viewLifecycleOwner) {
+            launchGameResultFragment(it)
         }
 
         viewModel.countCorrectAnswers.observe(viewLifecycleOwner) {
@@ -105,21 +98,20 @@ class GameFragment : Fragment() {
 
         viewModel.percentCorrectAnswers.observe(viewLifecycleOwner) {
             binding.progressBar.progress = it
-            Log.d("percent", it.toString())
         }
 
         viewModel.secondaryProgression.observe(viewLifecycleOwner) {
             binding.progressBar.secondaryProgress = it
         }
 
+        //Установка цветового сопровождения для прогресс бара
         viewModel.isGoodPercent.observe(viewLifecycleOwner) {
             if (it) {
                 binding.progressBar.progressDrawable.setColorFilter(
                     Color.GREEN,
                     android.graphics.PorterDuff.Mode.SRC_IN
                 )
-            }
-            else {
+            } else {
                 binding.progressBar.progressDrawable.setColorFilter(
                     Color.RED,
                     android.graphics.PorterDuff.Mode.SRC_IN
@@ -127,22 +119,22 @@ class GameFragment : Fragment() {
             }
         }
 
+        //установка цветового сопровождения для текста кол-ва правильных ответов
         viewModel.isGoodCount.observe(viewLifecycleOwner) {
             if (it) {
                 binding.tvAnswersProgress.setTextColor(resources.getColor(R.color.green))
-            }
-            else {
+            } else {
                 binding.tvAnswersProgress.setTextColor(resources.getColor(R.color.red))
             }
         }
     }
 
-    private fun launchGameResultFragment() {
-        val gs = GameSettings(10, 0, 0, 5)
+    private fun launchGameResultFragment(gameResult: GameResult) {
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container,
+            .replace(
+                R.id.main_container,
                 GameFinishedFragment.newInstance(
-                    GameResult(true,10,10,gs)
+                    gameResult
                 )
             )
             .addToBackStack(null)

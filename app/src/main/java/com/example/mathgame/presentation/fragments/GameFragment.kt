@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.graphics.green
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.mathgame.R
 import com.example.mathgame.databinding.FragmentGameBinding
 import com.example.mathgame.domain.entity.GameResult
@@ -21,8 +23,13 @@ import com.example.mathgame.presentation.viewModels.GameViewModelFactory
 
 class GameFragment : Fragment() {
 
-    private lateinit var level: Level
     private lateinit var viewModel: GameViewModel
+
+    private val args by navArgs<GameFragmentArgs>()
+
+    private val viewModelFactory by lazy {
+        GameViewModelFactory(requireActivity().application, args.level)
+    }
 
     private val tvOptions by lazy {
         mutableListOf<TextView>().apply {
@@ -41,7 +48,6 @@ class GameFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        parseArgs()
     }
 
     override fun onCreateView(
@@ -58,10 +64,7 @@ class GameFragment : Fragment() {
 
         viewModel = ViewModelProvider(
             this,
-            GameViewModelFactory(
-                requireActivity().application,
-                level
-            )
+            viewModelFactory
         )[GameViewModel::class.java]
         setObservers(viewModel)
         setOnClickOptionsListeners()
@@ -133,41 +136,13 @@ class GameFragment : Fragment() {
     }
 
     private fun launchGameResultFragment(gameResult: GameResult) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(
-                R.id.main_container,
-                GameFinishedFragment.newInstance(
-                    gameResult
-                )
-            )
-            .addToBackStack(null)
-            .commit()
-    }
-
-    private fun parseArgs() {
-        level = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getParcelable(KEY_LEVEL, Level::class.java)
-        } else {
-            requireArguments().getParcelable(KEY_LEVEL) as? Level
-        } ?: throw RuntimeException("Level is null")
+        findNavController().navigate(
+            GameFragmentDirections.actionGameFragmentToGameFinishedFragment(gameResult)
+        )
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-    }
-
-    companion object {
-
-        private const val KEY_LEVEL = "level"
-        const val NAME = "fragment_name_game"
-
-        fun newInstance(level: Level): GameFragment {
-            return GameFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_LEVEL, level)
-                }
-            }
-        }
     }
 }

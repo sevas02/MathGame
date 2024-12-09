@@ -17,6 +17,7 @@ import com.example.mathgame.domain.entity.GameResult
 import com.example.mathgame.domain.entity.GameSettings
 import com.example.mathgame.domain.entity.Level
 import com.example.mathgame.presentation.viewModels.GameViewModel
+import com.example.mathgame.presentation.viewModels.GameViewModelFactory
 
 class GameFragment : Fragment() {
 
@@ -57,10 +58,12 @@ class GameFragment : Fragment() {
 
         viewModel = ViewModelProvider(
             this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+            GameViewModelFactory(
+                requireActivity().application,
+                level
+            )
         )[GameViewModel::class.java]
         setObservers(viewModel)
-        viewModel.startGame(level)
         setOnClickOptionsListeners()
     }
 

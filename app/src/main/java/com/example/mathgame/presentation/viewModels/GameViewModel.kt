@@ -2,9 +2,9 @@ package com.example.mathgame.presentation.viewModels
 
 import android.app.Application
 import android.os.CountDownTimer
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.mathgame.R
 import com.example.mathgame.data.GameRepositoryImpl
 import com.example.mathgame.domain.entity.GameResult
@@ -14,9 +14,10 @@ import com.example.mathgame.domain.entity.Question
 import com.example.mathgame.domain.usecases.GenerateQuestionUseCase
 import com.example.mathgame.domain.usecases.GetGameSettingsUseCase
 
-class GameViewModel(application: Application): AndroidViewModel(application) {
-
-    private val context = application
+class GameViewModel(
+    private val context: Application,
+    private val level: Level
+): ViewModel() {
 
     private val repo = GameRepositoryImpl
 
@@ -26,7 +27,6 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     private var timer: CountDownTimer? = null
 
     private lateinit var gameSettings: GameSettings
-    private lateinit var level: Level
 
     //Ответы пользователя
     private val userAnswers = mutableListOf<Int>()
@@ -79,8 +79,11 @@ class GameViewModel(application: Application): AndroidViewModel(application) {
     val gameResultLD: LiveData<GameResult>
         get() = _gameResultLD
 
-    fun startGame(level: Level) {
-        this.level = level
+    init {
+        startGame()
+    }
+
+    private fun startGame() {
         this.gameSettings = getGameSettingsUseCase(level)
         startTimer()
         updateProgress()

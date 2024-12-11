@@ -1,18 +1,13 @@
 package com.example.mathgame.presentation.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.mathgame.R
 import com.example.mathgame.databinding.FragmentGameFinishedBinding
-import com.example.mathgame.domain.entity.GameResult
 
 
 class GameFinishedFragment : Fragment() {
@@ -40,35 +35,7 @@ class GameFinishedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val gameResult = args.gameResult
-
-        val percent = ((gameResult.countRightAnswers /
-                gameResult.countOfQuestions.toDouble()) * 100).toInt()
-
-        with(binding) {
-            if (gameResult.isVictory)
-                imgResult.setImageResource(R.drawable.winner_icon)
-            else
-                imgResult.setImageResource(R.drawable.looser_icon)
-
-            tvScoreAnswers.text = context?.resources?.getString(
-                R.string.text_your_score,
-                gameResult.countRightAnswers.toString()
-            )
-            tvScorePercentage.text = context?.resources?.getString(
-                R.string.text_your_percent_score,
-                percent.toString()
-            )
-            tvRequiredPercentage.text = context?.resources?.getString(
-                R.string.text_min_percent_correct_answers,
-                gameResult.gameSettings.minPercentOfRightAnswers.toString()
-            )
-            tvCountCorrectAnswers.text = context?.resources?.getString(
-                R.string.text_count_correct_answers,
-                gameResult.gameSettings.minSumOfRightAnswers.toString()
-            )
-        }
-
+        binding.gameResult = args.gameResult
         binding.buttonRetry.setOnClickListener {
             retryGame()
         }

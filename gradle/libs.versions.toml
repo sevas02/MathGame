@@ -10,6 +10,7 @@ material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
 navigation = "2.8.4"
+kapt ="1.9.24"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,4 +31,6 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 #Navigation safeargs
 navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "navigation" }
+#Kapt
+kapt = {id = "org.jetbrains.kotlin.kapt", version.ref ="kapt"}
 

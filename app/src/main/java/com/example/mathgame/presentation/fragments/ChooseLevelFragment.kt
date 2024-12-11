@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.mathgame.R
 import com.example.mathgame.databinding.FragmentChooseLevelBinding
 import com.example.mathgame.domain.entity.Level
 

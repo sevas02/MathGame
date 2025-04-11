@@ -49,7 +49,7 @@ class GameViewModel(
     val isGameOver:LiveData<Unit>
         get() = _isGameOver
 
-    //Количество правильных ответов строка
+    //Количество правильных ответов
     private val _countCorrectAnswers = MutableLiveData<String>()
     val countCorrectAnswers: LiveData<String>
         get() = _countCorrectAnswers
